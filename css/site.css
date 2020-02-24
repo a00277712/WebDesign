@@ -1,0 +1,11 @@
+.testimonial {
+    border: 1px solid black;
+    margin: 10px;
+    font-style: italic;
+    max-width: 400px;
+}
+
+.map {
+    border: 2px solid;
+    margin: 20px;
+}
