@@ -1,6 +1,78 @@
 <?php $title = "Contact Us" ?>
 <?php include 'layout/header.inc' ?>
-<div class=" d-flex justify-content-center">
-    <iframe class="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d304853.0163623814!2d-8.761337166639471!3d53.34926722277762!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x485c496f19ccea6b%3A0x1f3a077e5c4fdffd!2sAthlone%20Institute%20of%20Technology!5e0!3m2!1sen!2sie!4v1582573507730!5m2!1sen!2sie" width="600" height="450" frameborder="0" allowfullscreen=""></iframe>
-    </div>
-        <?php include 'layout/footer.inc' ?>
+<?php
+// define variables and set to empty values
+$nameErr = $emailErr = $commentErr ="";
+$name = $email = $comment = $phone = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  if (empty($_POST["name"])) {
+    $nameErr = "Name is required";
+  } else {
+    $name = test_input($_POST["name"]);
+    // check if name only contains letters and whitespace
+    if (!preg_match("/^[a-zA-Z ]*$/",$name)) {
+      $nameErr = "Only letters and white space allowed";
+    }
+  }
+  
+  if (empty($_POST["email"])) {
+    $emailErr = "Email is required";
+  } else {
+    $email = test_input($_POST["email"]);
+    // check if e-mail address is well-formed
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+      $emailErr = "Invalid email format";
+    }
+  }
+    
+  if (empty($_POST["phone"])) {
+    $phone = "";
+  } else {
+    $phone = test_input($_POST["phone"]);
+  }
+
+  if (empty($_POST["comment"])) {
+    $comment = "";
+    $commentErr = "Comment is required";
+  } else {
+    $comment = test_input($_POST["comment"]);
+  }
+}
+
+function test_input($data) {
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  return $data;
+}
+?>
+
+<h2>PHP Form Validation Example</h2>
+<p><span class="error">* required field</span></p>
+<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">  
+  Name: <input type="text" name="name" value="<?php echo $name;?>">
+  <span class="error">* <?php echo $nameErr;?></span>
+  <br><br>
+  E-mail: <input type="text" name="email" value="<?php echo $email;?>">
+  <span class="error">* <?php echo $emailErr;?></span>
+  <br><br>
+  Phone: <input type="text" name="phone" value="<?php echo $phone;?>">
+  <span class="error"><?php echo $websiteErr;?></span>
+  <br><br>
+  Comment: <textarea name="comment" rows="5" cols="40"><?php echo $comment;?></textarea>
+  <br><br>
+  <input type="submit" name="submit" value="Submit">  
+</form>
+
+<?php
+echo "<h2>Your Input:</h2>";
+echo $name;
+echo "<br>";
+echo $email;
+echo "<br>";
+echo $phone;
+echo "<br>";
+echo $comment;
+?>
+<?php include 'layout/footer.inc' ?>
