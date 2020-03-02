@@ -58,7 +58,6 @@ function test_input($data) {
   <span class="error">* <?php echo $emailErr;?></span>
   <br><br>
   Phone: <input type="text" name="phone" value="<?php echo $phone;?>">
-  <span class="error"><?php echo $websiteErr;?></span>
   <br><br>
   Comment: <textarea name="comment" rows="5" cols="40"><?php echo $comment;?></textarea>
   <br><br>
